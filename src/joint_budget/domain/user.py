@@ -1,12 +1,18 @@
 from dataclasses import dataclass, field
-from typing import List
+from typing import Set, Iterable
 from .id_generator import get_next_unique_id
-from .record import Record
+from .transfer import Transfer
 
 
 @dataclass
 class User:
     name: str
-    record: List[Record]
-    budget_ids: List[str] = field(default_factory=list)
+    transfers: Set[Transfer] = field(default_factory=list)
+    budget_ids: Set[str] = field(default_factory=list)
     id: str = field(default_factory=get_next_unique_id)
+
+    def add_transfers(self, transfers: Set[Transfer]):
+        self.transfers.update(transfers)
+
+    def add_transfer(self, transfer: Transfer):
+        self.transfers.add(transfer)
